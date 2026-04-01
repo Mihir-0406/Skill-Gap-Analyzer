@@ -1,11 +1,16 @@
 import { useState, useCallback } from 'react';
 
-export function useToast() {
-  const [toasts, setToasts] = useState([]);
+interface ToastProps {
+  title?: string;
+  description?: string;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+}
 
-  const toast = useCallback(({ title, description, variant }) => {
+export function useToast() {
+  const [toasts, setToasts] = useState<ToastProps[]>([]);
+
+  const toast = useCallback(({ title, description, variant }: ToastProps) => {
     console.log(`Toast: ${title} - ${description} [${variant}]`);
-    // Basic console implementation for now
   }, []);
 
   return { toast };
