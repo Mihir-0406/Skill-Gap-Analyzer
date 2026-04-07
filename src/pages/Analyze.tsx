@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PieChart, LineChart, ComposedChart, ResponsiveContainer, Pie, Cell, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { Download, Check, X, AlertCircle, BookOpen, ExternalLink, ChevronDown, ChevronUp, FileText, Upload, ShieldCheck, TrendingUp, Award } from 'lucide-react';
@@ -8,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/hooks/use-auth';
 
 // Define career paths with required skills
 const careerPaths = [
@@ -166,6 +168,7 @@ const learningResources = {
 
 const Analyze = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [selectedCareer, setSelectedCareer] = useState('');
   const [userSkills, setUserSkills] = useState<Record<string, number>>({});
   const [analysisComplete, setAnalysisComplete] = useState(false);
@@ -968,17 +971,21 @@ const Analyze = () => {
       )}
 
       {/* CTA Section */}
-      <section className="py-20 bg-white dark:bg-gray-800">
-        <div className="container mx-auto px-4 text-center" data-aos="fade-up">
-          <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Ready to Accelerate Your Career?</h2>
-          <p className="text-xl mb-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Set up regular skill assessments to track your progress and stay on the path to success
-          </p>
-          <Button className="btn-primary">
-            Create Account
-          </Button>
-        </div>
-      </section>
+      {!user && (
+        <section className="py-20 bg-white dark:bg-gray-800">
+          <div className="container mx-auto px-4 text-center" data-aos="fade-up">
+            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Ready to Accelerate Your Career?</h2>
+            <p className="text-xl mb-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Set up regular skill assessments to track your progress and stay on the path to success
+            </p>
+            <Link to="/signup">
+              <Button className="btn-primary">
+                Create Account
+              </Button>
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
